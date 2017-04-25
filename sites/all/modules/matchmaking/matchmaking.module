@@ -21,21 +21,13 @@ function matchmaking_menu(){
 }
 
 function show_my_interests(){
-  $user = "<ul>";
-  foreach($GLOBALS['user'] as $key => $value){
-    $user .= "<li>".$key.": ";
+  $query = db_query("SELECT field_food_value FROM field_revision_field_food WHERE entity_id = 4");
+  $this_food = 'User foods: ';
 
-    if($key = 'data'){
-      var_dump(unserialize($value));
-    }// else {
-      $user .= $value;
-    // }
+  $user_data = user_load($GLOBALS['user']->uid);
+  $this_food .= $user_data->field_food['und'][0]['value'];
 
-    $user.="</li>";
-  }
-  $user .= "</ul>";
-
-  return $user;
+  return $this_food;
 }
 
 function matchmaking_user_login(){
@@ -118,16 +110,26 @@ function matchmaking_form_submit($form, &$form_state){
   $dealbreakers = $form_state['values']['dealbreakers_interests'];
   $miscellaneous = $form_state['values']['miscellaneous_interests'];
 
-  $account = $GLOBALS['user'];
-  user_save($account, array(
-    'food' => $food,
-    'entertainment' => $entertainment,
-    'genres' => $genre,
-    'sport' => $sport,
-    'essentials' => $essentials,
-    'dealbreakers' => $dealbreakers,
-    'miscellaneous' => $miscellaneous
-  ));
+  $_SESSION['food'] = $food;
 
-  $form_state['redirect'] = 'my_interests';
+
+  db_query("UPDATE users SET food = 'Mexican'");
+
+  // $existingUser = user_load($GLOBALS['user']->$uid);
+  // $existingUser->signature['und'][0]['value'] = 'it works';
+  // user_save($existingUser);
+
+  db_insert('users')->fields(array('signature' => 'it works'))->execute();
+
+  // user_save($GLOBALS['user'], array(
+  //   'food' => $food,
+  //   'entertainment' => $entertainment,
+  //   'genres' => $genre,
+  //   'sport' => $sport,
+  //   'essentials' => $essentials,
+  //   'dealbreakers' => $dealbreakers,
+  //   'miscellaneous' => $miscellaneous
+  // ));
+
+  $form_state['redirect'] = 'interests';
 }
