@@ -30,6 +30,13 @@ _To view and use this application:_
 * CSS
 * JavaScript
 
+## User Stories
+As a user, I can input my interests when I create an account.
+As a user, I can edit my interests whenever I want.
+As a user, I want to be matched with any other user who has similar interests.
+As a user, I want to be able to generate an automatic date with my match based on our interests. 
+
+
 This software is licensed under the GPL license
 
 _If you have any questions or comments about this program, you can contact us at [ericaw21@gmail.com](mailto:ericaw21@gmail.com) & [Stackhouse.Dylan@gmail.com](mailto:Stackhouse.Dylan@gmail.com)._
