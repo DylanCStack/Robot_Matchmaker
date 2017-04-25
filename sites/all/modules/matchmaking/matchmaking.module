@@ -10,7 +10,32 @@ function matchmaking_menu(){
     'type' => MENU_NORMAL_ITEM,
   ];
 
+  $items['my_interests'] = [
+    'title' => 'SHOW MY INTERESTS',
+    'page callback' => 'show_my_interests',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  ];
+
   return $items;
+}
+
+function show_my_interests(){
+  $user = "<ul>";
+  foreach($GLOBALS['user'] as $key => $value){
+    $user .= "<li>".$key.": ";
+
+    if($key = 'data'){
+      var_dump(unserialize($value));
+    }// else {
+      $user .= $value;
+    // }
+
+    $user.="</li>";
+  }
+  $user .= "</ul>";
+
+  return $user;
 }
 
 function matchmaking_user_login(){
@@ -85,5 +110,24 @@ function interests_form(){
 }
 
 function matchmaking_form_submit($form, &$form_state){
-  $form_state['redirect'] = 'user';
+  $food = $form_state['values']['food_interests'];
+  $entertainment = $form_state['values']['entertainment_interests'];
+  $genre = $form_state['values']['genre_interests'];
+  $sport = $form_state['values']['sport_interests'];
+  $essentials = $form_state['values']['essentials_interests'];
+  $dealbreakers = $form_state['values']['dealbreakers_interests'];
+  $miscellaneous = $form_state['values']['miscellaneous_interests'];
+
+  $account = $GLOBALS['user'];
+  user_save($account, array(
+    'food' => $food,
+    'entertainment' => $entertainment,
+    'genres' => $genre,
+    'sport' => $sport,
+    'essentials' => $essentials,
+    'dealbreakers' => $dealbreakers,
+    'miscellaneous' => $miscellaneous
+  ));
+
+  $form_state['redirect'] = 'my_interests';
 }
