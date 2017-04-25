@@ -1,0 +1,89 @@
+<?php
+function matchmaking_menu(){
+  $items = [];
+
+  $items['interests'] = [
+    'title' => 'My Interests',
+    'page callback' => 'drupal_get_form',
+    'page arguments'=> ['interests_form'],
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  ];
+
+  return $items;
+}
+
+function matchmaking_user_login(){
+  $_GET['destination'] = 'interests';
+}
+
+function interests_form(){
+  $form['food_interests'] = [
+    '#title' => "Favorite Foods",
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc(array(
+      t('Mexican'), t('Chinese'), t('Italian'), t('Korean'), t('Fast Food'), t('Vegetarian'), t('Japanese'), t('Vegan'), t('Greek'), t('Indian'), t('Hawaiian'), t('Middle-Eastern'), t('French'), t('Thai'), t('American'))
+    ),
+    '#description' => "Select all of your preferred types of food. Something you would like to eat on a date.",
+  ];
+  $form['entertainment_interests'] = [
+    '#title' => "Entertainment",
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc(array(
+      t('Books'), t('Movies'), t('TV Shows'), t('Theater'), t('Opera'), t('Musicals'), t('Stand-Up Comics'), t('Graphic Novels'), t('Music'), t('Art'))
+    ),
+    '#description' => "What do you like to do for fun?",
+  ];
+  $form['genre_interests'] = [
+    '#title' => "Genres",
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc(array(
+      t('Action/Adventure'), t('Thriller'), t('Horror'), t('Tragedy'), t('Comic'), t('Romance'), t('Fantasy'), t('Sci-Fi'), t('Mystery'), t('Abstract'), t('Non-Fiction'), t('History'), t('Reality'), t('Documentary'), t('Western'))
+    ),
+    '#description' => "What genres are you interested in?",
+  ];
+  $form['sport_interests'] = [
+    '#title' => "Favorite Sports",
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc(array(
+      t('Soccer'), t('Football'), t('Rugby'), t('Ping-Pong'), t('Tennis'), t('Golf'), t('Volleyball'), t('Baseball'), t('Martial Arts'), t('Lacrosse'), t('Jai alai'), t('Gymnastics'), t('Dance'), t('Track & Field'), t('Fishing'), t('Basketball'), t('Bowling'), t('Video Gaming'), t('Water Polo'), t('Swimming'), t('Backyard Running'), t('Archery'), t('Fencing'), t('Fence-hopping'), t('Parkour'), t('Skateboarding'), t('Skiing'), t('BMX'), t('Snowboarding'), t('Surfing'), t('Polo'), t('Equestrian Activities'), t('Badminton'), t('Billiards'), t('Croquet'), t('Weight-lifting'), t('Cross-fit'), t('Yoga'))
+    ),
+    '#description' => "Pick your favorite sports",
+  ];
+
+  $importants = [t('Cats'), t('Dogs'), t('Smoking'), t('Drinking'), t('Drugs'), t('Hardcore Religion'), t('Kids'), t('Politics')];
+
+  $form['essentials_interests'] = [
+    '#title' => "Essentials",
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc($importants),
+    '#description' => "Check all that apply to you",
+  ];
+
+  $form['dealbreakers_interests'] = [
+    '#title' => "Dealbreakers",
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc($importants),
+    '#description' => "What do you absolutely completely DISLIKE",
+  ];
+  $form['miscellaneous_interests'] = [
+    '#title' => "Miscellaneous",
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc(array(
+      t('Board games'), t('Trivia'), t('Video Games'), t('Bar Games'), t('Hiking'), t('Wine-tasting'), t('Beer-tasting'), t('Writing'), t('Art/Crafts'), t('Photography'))
+    ),
+    '#description' => "All the other things",
+  ];
+
+  $form['submit'] =[
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  ];
+
+
+  return $form;
+}
+
+function matchmaking_form_submit($form, &$form_state){
+  $form_state['redirect'] = 'user';
+}

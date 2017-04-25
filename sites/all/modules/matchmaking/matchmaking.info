@@ -1,0 +1,5 @@
+name = Matchmaking
+description = An automatic matchmaker and date organizer.
+package = RobotMatchmaker
+core = 7.x
+files[] = matchmaking.module
